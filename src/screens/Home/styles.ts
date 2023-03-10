@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {Box, Button, Text} from 'native-base';
+import {Box, Button, FlatList, Spinner, Text} from 'native-base';
 
 export const Container = styled(Box)`
   justify-content: center;
@@ -10,3 +10,5 @@ export const Container = styled(Box)`
 export const Title = styled(Text)``;
 
 export const ButtonPrimary = styled(Button)``;
+
+export const Loading = styled(Spinner)``;

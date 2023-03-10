@@ -1,8 +1,20 @@
 import Realm from 'realm';
-import {TaskSchema} from './schemas/TaskSchema';
+import {
+  ChecklistSchema,
+  FarmerSchema,
+  FromSchema,
+  LocationSchema,
+  ToSchema,
+} from './schemas/ChecklistSchema';
 
-export const getRealm = async () =>
+export const getOfflineDB = async () =>
   await Realm.open({
     path: 'myrealapp',
-    schema: [TaskSchema],
+    schema: [
+      ChecklistSchema,
+      FarmerSchema,
+      FromSchema,
+      ToSchema,
+      LocationSchema,
+    ],
   });
