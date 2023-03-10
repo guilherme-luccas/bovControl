@@ -1,100 +1,6 @@
 import {getOfflineDB} from '../instance';
 import {Checklist} from '../../interfaces/interfaces';
 
-const data = [
-  {
-    _id: 9,
-    type: 'teste',
-    amount_of_milk_produced: '200',
-    number_of_cows_head: '10',
-    had_supervision: true,
-    farmer: {
-      name: 'teste',
-      city: 'teste',
-    },
-    from: {
-      name: 'teste',
-    },
-    to: {
-      name: 'teste',
-    },
-    location: {
-      latitude: 23,
-      longitude: 23,
-    },
-    created_at: 'teste',
-    updated_at: 'teste',
-  },
-  {
-    _id: 10,
-    type: 'teste',
-    amount_of_milk_produced: '200',
-    number_of_cows_head: '10',
-    had_supervision: true,
-    farmer: {
-      name: 'teste',
-      city: 'teste',
-    },
-    from: {
-      name: 'teste',
-    },
-    to: {
-      name: 'teste',
-    },
-    location: {
-      latitude: 23,
-      longitude: 23,
-    },
-    created_at: 'teste',
-    updated_at: 'teste',
-  },
-  {
-    _id: 11,
-    type: 'teste',
-    amount_of_milk_produced: '200',
-    number_of_cows_head: '10',
-    had_supervision: true,
-    farmer: {
-      name: 'teste',
-      city: 'teste',
-    },
-    from: {
-      name: 'teste',
-    },
-    to: {
-      name: 'teste',
-    },
-    location: {
-      latitude: 23,
-      longitude: 23,
-    },
-    created_at: 'teste',
-    updated_at: 'teste',
-  },
-  {
-    _id: 12,
-    type: 'teste',
-    amount_of_milk_produced: '200',
-    number_of_cows_head: '10',
-    had_supervision: true,
-    farmer: {
-      name: 'teste',
-      city: 'teste',
-    },
-    from: {
-      name: 'teste',
-    },
-    to: {
-      name: 'teste',
-    },
-    location: {
-      latitude: 23,
-      longitude: 23,
-    },
-    created_at: 'teste',
-    updated_at: 'teste',
-  },
-];
 export async function createItemOfflineDB(items: any) {
   const realm = await getOfflineDB();
   items.forEach((item: any) => {
@@ -104,9 +10,36 @@ export async function createItemOfflineDB(items: any) {
   });
 }
 
-export async function getItems() {
+export async function getItemsOfflineDB() {
   const realm = await getOfflineDB();
 
   const checklist = realm.objects('checklist');
   return checklist;
+}
+
+export async function updateItemsOfflineDB(items: Checklist[]) {
+  const realm = await getOfflineDB();
+
+  items.forEach((item: Checklist) => {
+    realm.write(() => {
+      const itemToUpdate: Checklist = realm.objectForPrimaryKey(
+        'checklist',
+        item._id,
+      );
+
+      itemToUpdate.amount_of_milk_produced = item.amount_of_milk_produced;
+      itemToUpdate._id = item._id;
+      itemToUpdate.number_of_cows_head = item.number_of_cows_head;
+      itemToUpdate.farmer.name = item.farmer.name;
+      itemToUpdate.farmer.city = item.farmer.city;
+      itemToUpdate.from.name = item.from.name;
+      itemToUpdate.to.name = item.to.name;
+      itemToUpdate.had_supervision = item.had_supervision;
+      itemToUpdate.location.latitude = item.location.latitude;
+      itemToUpdate.location.longitude = item.location.longitude;
+      itemToUpdate.created_at = item.created_at;
+      itemToUpdate.updated_at = item.updated_at;
+    });
+  });
+  // return checklist;
 }

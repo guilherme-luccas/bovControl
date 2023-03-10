@@ -2,8 +2,12 @@ import {Checklist} from './../../interfaces/interfaces';
 import {
   createItemRemoteDB,
   getChecklistsRemoteDB,
+  updateItemRemoteDB,
 } from '../repository/Repository';
-import {createItemOfflineDB} from '../../offlineDatabase/repository/Repository';
+import {
+  createItemOfflineDB,
+  updateItemsOfflineDB,
+} from '../../offlineDatabase/repository/Repository';
 import _ from 'lodash';
 import {
   returnNewestItemByDate,
@@ -31,27 +35,29 @@ export async function syncAllDataBases(list: any) {
 
     const remoteToCompare = remoteDB.sort((a: any, b: any) => a._id - b._id);
 
-    const itemToCompareFromOfflineDB = returnOddObjectFromTwoArrays(
+    const itemsToCompareFromOfflineDB = returnOddObjectFromTwoArrays(
       listToCompare,
       remoteToCompare,
     );
 
-    const itemToCompareFromRemoteDB = returnOddObjectFromTwoArrays(
+    const itemsToCompareFromRemoteDB = returnOddObjectFromTwoArrays(
       remoteToCompare,
       listToCompare,
     );
 
-    const itemToUpdate = returnNewestItemByDate(
-      itemToCompareFromOfflineDB,
-      itemToCompareFromRemoteDB,
+    const itemsToUpdate = returnNewestItemByDate(
+      itemsToCompareFromOfflineDB,
+      itemsToCompareFromRemoteDB,
     );
 
-    if (itemToUpdate === itemToCompareFromRemoteDB) {
+    if (itemsToUpdate === itemsToCompareFromRemoteDB) {
       //update offline db
+      updateItemsOfflineDB(itemsToUpdate);
     } else {
       //update online db
+      updateItemRemoteDB(itemsToUpdate);
     }
-    // console.log('itemToCompareFromRemoteDB', itemToCompareFromRemoteDB);
+    console.log('itemsToUpdate', itemsToUpdate);
   } catch (error: any) {
     console.log(error.message);
   }

@@ -1,14 +1,25 @@
 import {useNetInfo} from '@react-native-community/netinfo';
 import React, {useEffect, useState} from 'react';
-import {Checklist, List} from '../../infra/interfaces/interfaces';
+import {Checklist} from '../../infra/interfaces/interfaces';
 import {FlatList} from 'react-native';
 
 import {
   createItemOfflineDB,
-  getItems,
+  getItemsOfflineDB,
 } from '../../infra/offlineDatabase/repository/Repository';
 
-import {ButtonPrimary, Container, Loading, Title} from './styles';
+import {
+  ButtonPrimary,
+  Container,
+  ContainerLogo,
+  Loading,
+  Title,
+  Picture,
+  ContainerFlatList,
+} from './styles';
+
+import logo from '../../assets/bovIcon.png';
+
 import {getChecklistsRemoteDB} from '../../infra/remoteDatabase/repository/Repository';
 import RenderItem from './components/renderItem';
 import {syncAllDataBases} from '../../infra/remoteDatabase/useCases/useCases';
@@ -33,19 +44,41 @@ export default function Home() {
       try {
         //arrumar tipagem
 
-        const checklists = await getItems();
+        const checklists = await getItemsOfflineDB();
         setList(checklists.toJSON());
         setLoading(false);
       } catch (error) {
         setLoading(false);
       }
     }
-
     init();
   }, []);
+
   return (
     <Container safeAreaTop>
-      {loading ? (
+      <ContainerLogo>
+        <Picture source={logo} />
+        <Title>BovControl</Title>
+        {/* <Image
+          source={{
+            uri: 'https://cdn-icons-png.flaticon.com/512/3788/3788328.png',
+          }}
+          alt="Alternate Text"
+          size="xl"
+        /> */}
+      </ContainerLogo>
+      <ContainerFlatList>
+        {loading ? (
+          <Loading size="lg" color="black" />
+        ) : (
+          <FlatList
+            data={list}
+            renderItem={({item}) => <RenderItem item={item} />}
+            keyExtractor={item => String(item._id)}
+          />
+        )}
+      </ContainerFlatList>
+      {/* {loading ? (
         <Loading size="lg" color="black" />
       ) : (
         <FlatList
@@ -53,12 +86,12 @@ export default function Home() {
           renderItem={({item}) => <RenderItem item={item} />}
           keyExtractor={item => String(item._id)}
         />
-      )}
+      )} */}
 
-      <ButtonPrimary onPress={async () => syncAllDataBases(list)}>
+      {/* <ButtonPrimary onPress={async () => syncAllDataBases(list)}>
         buscar items
-      </ButtonPrimary>
-      <ButtonPrimary
+      </ButtonPrimary> */}
+      {/* <ButtonPrimary
         onPress={async () =>
           createItemOfflineDB([
             {
@@ -87,7 +120,7 @@ export default function Home() {
           ])
         }>
         Criar item
-      </ButtonPrimary>
+      </ButtonPrimary> */}
     </Container>
   );
 }
