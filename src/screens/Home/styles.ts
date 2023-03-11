@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import {Box, Button, Spinner, Switch, Text} from 'native-base';
-import {Image} from 'react-native';
+import {Image, TouchableOpacity} from 'react-native';
 import {ThemeMode} from '../../globalStyles/stylesInterfaces';
 
 export const Container = styled(Box)<ThemeMode>`
@@ -8,7 +8,6 @@ export const Container = styled(Box)<ThemeMode>`
   flex: 1;
   background-color: ${({themeLight, theme}) =>
     themeLight ? theme.colors.textWhite : theme.colors.dangerPrimary};
-  z-index: 4;
 `;
 export const ContainerGreen = styled(Box)`
   align-items: center;
@@ -16,7 +15,6 @@ export const ContainerGreen = styled(Box)`
   padding: 0px 20px;
   width: 100%;
   background-color: ${({theme}) => theme.colors.greenPrimary};
-  z-index: 1;
   border-bottom-left-radius: 40px;
   border-bottom-right-radius: 40px;
 `;
@@ -27,7 +25,6 @@ export const ContainerWhite = styled(Box)`
   padding: 0px 20px;
   width: 100%;
   margin-top: -120px;
-  z-index: 2;
 `;
 export const ContainerChecklistInfos = styled(Box)`
   align-items: center;
@@ -92,3 +89,30 @@ export const SwitchTheme = styled(Switch)`
   margin-top: 10px;
 `;
 export const Toast = styled(Box)``;
+
+export const ModalContainer = styled(Box)`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+`;
+export const ModalContainerBody = styled(Box)`
+  width: 90%;
+  max-height: 450px;
+  elevation: 3;
+  background-color: ${({theme}) => theme.colors.textGray};
+  align-items: center;
+  justify-content: center;
+`;
+
+export const TextModal = styled(Text)`
+  font-size: 18px;
+  line-height: 20px;
+  margin-bottom: 10px;
+  color: ${({theme}) => theme.colors.textWhite};
+`;
+
+export const ButtonCloseModal = styled(TouchableOpacity)`
+  margin-top: 20px;
+  margin-bottom: 10px;
+`;

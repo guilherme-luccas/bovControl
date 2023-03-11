@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {Box, Button, Select, ScrollView, Text, Checkbox} from 'native-base';
+import {Box, Button, Select, ScrollView, Text} from 'native-base';
 import {TextInput} from 'react-native';
 import {ThemeMode} from '../../globalStyles/stylesInterfaces';
 

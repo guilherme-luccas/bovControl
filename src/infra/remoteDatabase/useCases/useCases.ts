@@ -27,12 +27,12 @@ export async function syncAllDataBases(list: Checklist[]) {
       createItemRemoteDB(missingItemsRemoteDB);
     }
 
-    const missingItemsOffilneDB = remoteDB.filter(
+    const missingItemsOfflineDB = remoteDB.filter(
       (item: any) => !list.find((obj: any) => obj._id === item._id),
     );
 
-    if (missingItemsOffilneDB.length > 0) {
-      createItemOfflineDB(missingItemsOffilneDB);
+    if (missingItemsOfflineDB.length > 0) {
+      createItemOfflineDB(missingItemsOfflineDB);
     }
 
     const listToCompare = list.sort((a: any, b: any) => a._id - b._id);
@@ -63,7 +63,13 @@ export async function syncAllDataBases(list: Checklist[]) {
     }
 
     const checklist = await getItemsOfflineDB();
-    return checklist;
+
+    return {
+      checklist,
+      missingItemsOfflineDB,
+      itemsToUpdate:
+        itemsToUpdate !== itemsToCompareFromRemoteDB ? itemsToUpdate : [],
+    };
   } catch (error: any) {
     console.log(error.message);
   }

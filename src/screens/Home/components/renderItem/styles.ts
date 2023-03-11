@@ -14,7 +14,7 @@ export const Container = styled(Box)<ThemeMode>`
 `;
 
 export const ContainerInfo = styled(Box)`
-  width: 250px;
+  width: 80%;
 `;
 
 export const ContainerEditDelete = styled(Box)`

@@ -30,11 +30,12 @@ interface Props {
   item: Checklist;
   initOnline: () => void;
   initOffline: () => void;
+  disableIcons: boolean;
 }
 
 export default function RenderItem(props: Props) {
   const navigation: any = useNavigation();
-  const {item, initOnline, initOffline} = props;
+  const {item, initOnline, initOffline, disableIcons} = props;
 
   const {themeLight, ChangeTheme} = useContext(ThemeContext);
 
@@ -60,41 +61,47 @@ export default function RenderItem(props: Props) {
           <Subtitle>{formatDate(item.created_at)}</Subtitle>
         </ContainerField>
       </ContainerInfo>
-      <Div />
-      <ContainerEditDelete>
-        <Button onPress={() => navigation.navigate('InfoChecklist', item)}>
-          <InfoIcon size="xl" color={theme.colors.textWhite} />
-        </Button>
-        <Button
-          onPress={() => {
-            Alert.alert('Deseja excluir esse item?', '', [
-              {
-                text: 'Não',
-                onPress: () => {},
-                style: 'cancel',
-              },
-              {
-                text: 'Sim',
-                onPress: () => {
-                  if (isOnline) {
-                    deleteItemOfflineDB(item);
-                    deleteItemRemoteDB(item);
-                    initOnline();
-                  }
-                  deleteItemOfflineDB(item);
-                  initOffline();
-                },
-              },
-            ]);
-          }}>
-          <DeleteIcon
-            size="xl"
-            color={
-              themeLight ? theme.colors.textBlack : theme.colors.dangerPrimary
-            }
-          />
-        </Button>
-      </ContainerEditDelete>
+      {!disableIcons && (
+        <>
+          <Div />
+          <ContainerEditDelete>
+            <Button onPress={() => navigation.navigate('InfoChecklist', item)}>
+              <InfoIcon size="xl" color={theme.colors.textWhite} />
+            </Button>
+            <Button
+              onPress={() => {
+                Alert.alert('Deseja excluir esse item?', '', [
+                  {
+                    text: 'Não',
+                    onPress: () => {},
+                    style: 'cancel',
+                  },
+                  {
+                    text: 'Sim',
+                    onPress: () => {
+                      if (isOnline) {
+                        deleteItemOfflineDB(item);
+                        deleteItemRemoteDB(item);
+                        initOnline();
+                      }
+                      deleteItemOfflineDB(item);
+                      initOffline();
+                    },
+                  },
+                ]);
+              }}>
+              <DeleteIcon
+                size="xl"
+                color={
+                  themeLight
+                    ? theme.colors.textBlack
+                    : theme.colors.dangerPrimary
+                }
+              />
+            </Button>
+          </ContainerEditDelete>
+        </>
+      )}
     </Container>
   );
 }

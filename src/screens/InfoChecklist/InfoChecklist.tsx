@@ -19,7 +19,7 @@ export default function InfoChecklist() {
   const navigation: any = useNavigation();
   const route = useRoute();
 
-  const {themeLight, ChangeTheme} = useContext(ThemeContext);
+  const {themeLight} = useContext(ThemeContext);
 
   const item: Checklist = route.params;
 
