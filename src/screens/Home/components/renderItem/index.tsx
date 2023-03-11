@@ -21,7 +21,7 @@ interface Props {
 }
 
 export default function RenderItem(props: Props) {
-  const navigation = useNavigation();
+  const navigation: any = useNavigation();
   const item = props.item;
 
   const isOnline = useNetInfo().isConnected;

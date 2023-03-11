@@ -13,7 +13,7 @@ export async function createItemOfflineDB(items: any) {
 export async function getItemsOfflineDB() {
   const realm = await getOfflineDB();
 
-  const checklist = realm.objects('checklist');
+  const checklist: any = realm.objects('checklist');
   return checklist;
 }
 

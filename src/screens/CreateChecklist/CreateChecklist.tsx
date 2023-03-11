@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-import {useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {useNetInfo} from '@react-native-community/netinfo';
 
 import {
@@ -32,6 +32,7 @@ import {
 export default function CreateChecklist() {
   const route = useRoute();
   const isOnline = useNetInfo().isConnected;
+  const navigation: any = useNavigation();
 
   const item: Checklist = route.params;
 
@@ -41,6 +42,7 @@ export default function CreateChecklist() {
     control,
     handleSubmit,
     formState: {errors},
+    reset,
   } = useForm({
     defaultValues: {
       FarmerName: isEditChecklist ? item.from.name : '',
@@ -61,7 +63,7 @@ export default function CreateChecklist() {
   );
 
   const [hadSupervision, setHadSupervision] = useState(
-    isEditChecklist ? String(item.had_supervision) : 'false',
+    isEditChecklist ? String(item.had_supervision) : '',
   );
   const [errorChecklistType, setErrorChecklistType] = useState(false);
   const [errorHadSupervision, setErrorHadSuperVision] = useState(false);
@@ -78,36 +80,36 @@ export default function CreateChecklist() {
       return;
     }
     try {
-      if (isOnline) {
-        const body = [
-          {
-            _id: isEditChecklist
-              ? item._id
-              : String(Math.floor(Math.random() * 100103020)),
-            type: checklistType.toUpperCase(),
-            amount_of_milk_produced: Number(data.AmountOfMilkProduced),
-            number_of_cows_head: Number(data.NumbersOfCowsHead),
-            farmer: {
-              name: String(data.FarmName).toUpperCase(),
-              city: String(data.FarmCity).toUpperCase(),
-            },
-            from: {
-              name: String(data.FarmerName).toUpperCase(),
-            },
-            to: {
-              name: String(data.SupervisorName).toUpperCase(),
-            },
-            had_supervision: booleandSupervision,
-            created_at: isEditChecklist
-              ? String(item.created_at)
-              : String(new Date()),
-            updated_at: String(new Date()),
-            location: {
-              latitude: 25.5,
-              longitude: 32.5,
-            },
+      const body = [
+        {
+          _id: isEditChecklist
+            ? item._id
+            : String(Math.floor(Math.random() * 100103020)),
+          type: checklistType.toUpperCase(),
+          amount_of_milk_produced: Number(data.AmountOfMilkProduced),
+          number_of_cows_head: Number(data.NumbersOfCowsHead),
+          farmer: {
+            name: String(data.FarmName).toUpperCase(),
+            city: String(data.FarmCity).toUpperCase(),
           },
-        ];
+          from: {
+            name: String(data.FarmerName).toUpperCase(),
+          },
+          to: {
+            name: String(data.SupervisorName).toUpperCase(),
+          },
+          had_supervision: booleandSupervision,
+          created_at: isEditChecklist
+            ? String(item.created_at)
+            : String(new Date()),
+          updated_at: String(new Date()),
+          location: {
+            latitude: 25.5,
+            longitude: 32.5,
+          },
+        },
+      ];
+      if (isOnline) {
         if (!isEditChecklist) {
           createItemRemoteDB(body);
           createItemOfflineDB(body);
@@ -117,6 +119,18 @@ export default function CreateChecklist() {
           updateItemsOfflineDB(body);
         }
       }
+      if (!isOnline) {
+        if (!isEditChecklist) {
+          createItemOfflineDB(body);
+        }
+        if (isEditChecklist) {
+          updateItemsOfflineDB(body);
+        }
+      }
+      reset();
+      setHadSupervision('');
+      setChecklistType('');
+      navigation.navigate('Home');
     } catch (error) {
       console.log(error);
     }

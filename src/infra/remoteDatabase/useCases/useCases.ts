@@ -6,6 +6,7 @@ import {
 } from '../repository/Repository';
 import {
   createItemOfflineDB,
+  getItemsOfflineDB,
   updateItemsOfflineDB,
 } from '../../offlineDatabase/repository/Repository';
 import _ from 'lodash';
@@ -14,19 +15,22 @@ import {
   returnOddObjectFromTwoArrays,
 } from '../../../utils';
 
-export async function syncAllDataBases(list: any) {
+export async function syncAllDataBases(list: Checklist[]) {
   try {
     const remoteDB = await getChecklistsRemoteDB();
+
     const missingItemsRemoteDB = list.filter(
       (item: any) => !remoteDB?.find((obj: any) => obj._id === item._id),
     );
-    console.log('missingItemsRemoteDB', missingItemsRemoteDB);
+
     if (missingItemsRemoteDB.length > 0) {
       createItemRemoteDB(missingItemsRemoteDB);
     }
+
     const missingItemsOffilneDB = remoteDB.filter(
       (item: any) => !list.find((obj: any) => obj._id === item._id),
     );
+
     if (missingItemsOffilneDB.length > 0) {
       createItemOfflineDB(missingItemsOffilneDB);
     }
@@ -57,7 +61,9 @@ export async function syncAllDataBases(list: any) {
       //update online db
       updateItemRemoteDB(itemsToUpdate);
     }
-    console.log('itemsToUpdate', itemsToUpdate);
+
+    const checklist = await getItemsOfflineDB();
+    return checklist;
   } catch (error: any) {
     console.log(error.message);
   }

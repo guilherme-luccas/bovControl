@@ -31,7 +31,7 @@ export async function createItemRemoteDB(items: any) {
 
 export async function deleteItemRemoteDB(item: Checklist) {
   try {
-    await api.delete(`/checkList/4538474`);
+    await api.delete(`/checkList/${item._id}`);
   } catch (error) {}
 }
 
