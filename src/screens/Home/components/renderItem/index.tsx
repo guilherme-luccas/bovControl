@@ -67,10 +67,10 @@ export default function RenderItem(props: Props) {
         </Button>
         <Button
           onPress={() => {
-            Alert.alert('Deseja excluir esse item?', 'My Alert Msg', [
+            Alert.alert('Deseja excluir esse item?', '', [
               {
                 text: 'Não',
-                onPress: () => console.log('Cancel Pressed'),
+                onPress: () => {},
                 style: 'cancel',
               },
               {

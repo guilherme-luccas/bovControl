@@ -27,7 +27,7 @@ export const Error = styled(Text)`
   color: red;
 `;
 
-export const InputFiled = styled(TextInput).attrs(() => {})`
+export const InputFiled = styled(TextInput)<ThemeMode>`
   height: 50px;
   width: 300px;
   background-color: ${({theme, themeLight}) =>

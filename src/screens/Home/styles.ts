@@ -91,3 +91,4 @@ export const Picture = styled(Image)`
 export const SwitchTheme = styled(Switch)`
   margin-top: 10px;
 `;
+export const Toast = styled(Box)``;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   ButtonPrimary,
   ButtonsContainer,
@@ -13,10 +13,13 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import {Checklist} from '../../infra/interfaces/interfaces';
 import {supervisionType} from '../../utils/const';
 import {format} from 'date-fns';
+import {ThemeContext} from '../../context/useThemeMode';
 
 export default function InfoChecklist() {
   const navigation: any = useNavigation();
   const route = useRoute();
+
+  const {themeLight, ChangeTheme} = useContext(ThemeContext);
 
   const item: Checklist = route.params;
 
@@ -30,7 +33,7 @@ export default function InfoChecklist() {
   return (
     <Container safeAreaTop>
       <Title>Informações do Checklist</Title>
-      <Card>
+      <Card themeLight={themeLight}>
         <FieldContainer>
           <FieldName>Fazendeiro:</FieldName>
           <FieldOption>{item.from.name}</FieldOption>
@@ -74,10 +77,13 @@ export default function InfoChecklist() {
       </Card>
       <ButtonsContainer>
         <ButtonPrimary
+          themeLight={themeLight}
           onPress={() => navigation.navigate('CreateChecklist', item)}>
           <Title>Editar</Title>
         </ButtonPrimary>
-        <ButtonPrimary onPress={() => navigation.navigate('CreateChecklist')}>
+        <ButtonPrimary
+          themeLight={themeLight}
+          onPress={() => navigation.navigate('CreateChecklist')}>
           <Title>Novo Checklist</Title>
         </ButtonPrimary>
       </ButtonsContainer>

@@ -16,11 +16,13 @@ import {
   TextButton,
   ContainerChecklistInfos,
   SwitchTheme,
+  Toast,
 } from './styles';
 //@ts-ignore
 import logo from '../../assets/bovIcon.png';
 import {ThemeContext} from '../../context/useThemeMode';
 import theme from '../../globalStyles/theme';
+import {useToast} from 'native-base';
 
 import {Checklist} from '../../infra/interfaces/interfaces';
 
@@ -38,6 +40,7 @@ export default function Home() {
   const isOnline = useNetInfo().isConnected;
   const isFocused = useIsFocused();
   const navigation = useNavigation();
+  const toast = useToast();
 
   const {themeLight, ChangeTheme} = useContext(ThemeContext);
 
@@ -77,14 +80,30 @@ export default function Home() {
   }
 
   useEffect(() => {
-    if (!isOnline) {
+    if (isOnline == false) {
       console.log('entrou offline');
+
       initOffline();
     }
-    console.log('entrou online');
-
-    initOnline();
-  }, [isFocused]);
+    if (isOnline) {
+      toast.show({
+        placement: 'top',
+        render: () => {
+          return (
+            <Toast
+              bg={theme.colors.dangerPrimary}
+              px="2"
+              py="2"
+              rounded="sm"
+              mb={5}>
+              Você está Online
+            </Toast>
+          );
+        },
+      });
+      initOnline();
+    }
+  }, [isFocused, isOnline]);
 
   return (
     <Container themeLight={themeLight} safeAreaTop>

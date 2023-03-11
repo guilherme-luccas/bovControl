@@ -260,6 +260,7 @@ export default function CreateChecklist() {
             control={control}
             rules={{
               required: true,
+              pattern: /^(0|[1-9]\d*)(\.\d+)?$/,
             }}
             render={({field: {onChange, onBlur, value}}) => (
               <InputFiled
@@ -272,13 +273,20 @@ export default function CreateChecklist() {
             )}
             name="NumbersOfCowsHead"
           />
-          {errors.NumbersOfCowsHead && <Error>Esse campo é necessário</Error>}
+          {errors.NumbersOfCowsHead && (
+            <Error>
+              {errors.NumbersOfCowsHead.type === 'pattern'
+                ? 'Esse campo aceita apenas números'
+                : 'Esse campo é necessário'}
+            </Error>
+          )}
         </InputContainer>
         <InputContainer>
           <Controller
             control={control}
             rules={{
               required: true,
+              pattern: /^(0|[1-9]\d*)(\.\d+)?$/,
             }}
             render={({field: {onChange, onBlur, value}}) => (
               <InputFiled
@@ -292,7 +300,11 @@ export default function CreateChecklist() {
             name="AmountOfMilkProduced"
           />
           {errors.AmountOfMilkProduced && (
-            <Error>Esse campo é necessário</Error>
+            <Error>
+              {errors.AmountOfMilkProduced.type === 'pattern'
+                ? 'Esse campo aceita apenas números'
+                : 'Esse campo é necessário'}
+            </Error>
           )}
         </InputContainer>
         <InputContainer>

@@ -1,3 +1,4 @@
+import {ThemeMode} from './../../globalStyles/stylesInterfaces';
 import {Box, Button, Text} from 'native-base';
 import styled from 'styled-components';
 
@@ -5,19 +6,23 @@ export const Container = styled(Box)`
   align-items: center;
   flex: 1;
   padding: 10px 20px;
-  background-color: burlywood;
+  background-color: ${({theme}) => theme.colors.greenPrimary};
 `;
-export const Card = styled(Box)`
+export const Card = styled(Box)<ThemeMode>`
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 0px 20px;
-  background-color: weath;
+  padding: 10px 20px;
+  background-color: ${({theme, themeLight}) =>
+    themeLight ? theme.colors.backgroundWhite : theme.colors.dangerPrimary};
+
   width: 100%;
-  margin-top: 30px;
+  margin-top: 20px;
+  border-radius: 20px;
 `;
 export const Title = styled(Text)`
   font-size: 20px;
-  line-height: 30px;
+  line-height: 22px;
+  color: ${({theme}) => theme.colors.textWhite};
 `;
 export const FieldName = styled(Text)`
   font-size: 20px;
@@ -41,8 +46,10 @@ export const ButtonsContainer = styled(Box)`
   width: 100%;
   margin-top: 40px;
 `;
-export const ButtonPrimary = styled(Button)`
-  height: 50px;
+export const ButtonPrimary = styled(Button)<ThemeMode>`
   width: 160px;
-  background-color: wheat;
+  height: 40px;
+  margin-top: 20px;
+  border-radius: 20px;
+  background-color: ${({theme}) => theme.colors.dangerPrimary};
 `;
