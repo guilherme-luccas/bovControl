@@ -1,7 +1,10 @@
-import {DeleteIcon, InfoIcon} from 'native-base';
+import {Alert} from 'react-native';
+import {useContext} from 'react';
+
 import {Checklist} from '../../../../infra/interfaces/interfaces';
-import {formatDate} from '../../../../utils';
+
 import {useNavigation} from '@react-navigation/native';
+
 import {
   Button,
   Container,
@@ -12,22 +15,33 @@ import {
   Subtitle,
   Title,
 } from './styles';
+import {DeleteIcon, InfoIcon} from 'native-base';
+import theme from '../../../../globalStyles/theme';
+
+import {ThemeContext} from '../../../../context/useThemeMode';
+
 import {useNetInfo} from '@react-native-community/netinfo';
+
 import {deleteItemOfflineDB} from '../../../../infra/offlineDatabase/repository/Repository';
 import {deleteItemRemoteDB} from '../../../../infra/remoteDatabase/repository/Repository';
+import {formatDate} from '../../../../utils';
 
 interface Props {
   item: Checklist;
+  initOnline: () => void;
+  initOffline: () => void;
 }
 
 export default function RenderItem(props: Props) {
   const navigation: any = useNavigation();
-  const item = props.item;
+  const {item, initOnline, initOffline} = props;
+
+  const {themeLight, ChangeTheme} = useContext(ThemeContext);
 
   const isOnline = useNetInfo().isConnected;
 
   return (
-    <Container>
+    <Container themeLight={themeLight} shadow={1}>
       <ContainerInfo>
         <ContainerField>
           <Title>Fazendeiro:</Title>
@@ -48,17 +62,37 @@ export default function RenderItem(props: Props) {
       </ContainerInfo>
       <Div />
       <ContainerEditDelete>
-        <Button onPress={() => navigation.navigate('CreateChecklist', item)}>
-          <InfoIcon size="xl" color="gray.500" />
+        <Button onPress={() => navigation.navigate('InfoChecklist', item)}>
+          <InfoIcon size="xl" color={theme.colors.textWhite} />
         </Button>
         <Button
           onPress={() => {
-            if (isOnline) {
-              deleteItemOfflineDB(item);
-              deleteItemRemoteDB(item);
-            }
+            Alert.alert('Deseja excluir esse item?', 'My Alert Msg', [
+              {
+                text: 'Não',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+              },
+              {
+                text: 'Sim',
+                onPress: () => {
+                  if (isOnline) {
+                    deleteItemOfflineDB(item);
+                    deleteItemRemoteDB(item);
+                    initOnline();
+                  }
+                  deleteItemOfflineDB(item);
+                  initOffline();
+                },
+              },
+            ]);
           }}>
-          <DeleteIcon size="xl" color="red.500" />
+          <DeleteIcon
+            size="xl"
+            color={
+              themeLight ? theme.colors.textBlack : theme.colors.dangerPrimary
+            }
+          />
         </Button>
       </ContainerEditDelete>
     </Container>

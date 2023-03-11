@@ -1,16 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useNetInfo} from '@react-native-community/netinfo';
 
 import {
-  ButonSubmit,
+  ButtonHome,
+  ButtonSubmit,
   Container,
   Error,
   InputContainer,
   InputFiled,
   Scroll,
   SelectField,
+  TextButton,
   Title,
 } from './styles';
 
@@ -28,11 +30,15 @@ import {
   createItemOfflineDB,
   updateItemsOfflineDB,
 } from '../../infra/offlineDatabase/repository/Repository';
+import {ThemeContext} from '../../context/useThemeMode';
+import theme from '../../globalStyles/theme';
 
 export default function CreateChecklist() {
   const route = useRoute();
   const isOnline = useNetInfo().isConnected;
   const navigation: any = useNavigation();
+
+  const {themeLight, ChangeTheme} = useContext(ThemeContext);
 
   const item: Checklist = route.params;
 
@@ -159,6 +165,7 @@ export default function CreateChecklist() {
             }}
             render={({field: {onChange, onBlur, value}}) => (
               <InputFiled
+                themeLight={themeLight}
                 placeholder="Fazendeiro"
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -177,6 +184,7 @@ export default function CreateChecklist() {
             }}
             render={({field: {onChange, onBlur, value}}) => (
               <InputFiled
+                themeLight={themeLight}
                 placeholder="Nome da Fazenda"
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -195,6 +203,7 @@ export default function CreateChecklist() {
             }}
             render={({field: {onChange, onBlur, value}}) => (
               <InputFiled
+                themeLight={themeLight}
                 placeholder="Local da Fazenda"
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -207,7 +216,11 @@ export default function CreateChecklist() {
         </InputContainer>
         <InputContainer>
           <SelectField
-            bg="white"
+            themeLight={themeLight}
+            bg={themeLight ? theme.colors.textWhite : theme.colors.textGray}
+            placeholderTextColor={
+              themeLight ? theme.colors.textGray : theme.colors.textGray2
+            }
             selectedValue={hadSupervision}
             minWidth="300"
             accessibilityLabel="Teve supervisão?"
@@ -230,6 +243,7 @@ export default function CreateChecklist() {
             }}
             render={({field: {onChange, onBlur, value}}) => (
               <InputFiled
+                themeLight={themeLight}
                 editable={hadSupervision == 'true' ? true : false}
                 placeholder="Nome do Supervisor"
                 onBlur={onBlur}
@@ -249,6 +263,7 @@ export default function CreateChecklist() {
             }}
             render={({field: {onChange, onBlur, value}}) => (
               <InputFiled
+                themeLight={themeLight}
                 placeholder="Número de cabeças de gado"
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -267,6 +282,7 @@ export default function CreateChecklist() {
             }}
             render={({field: {onChange, onBlur, value}}) => (
               <InputFiled
+                themeLight={themeLight}
                 placeholder="Quantidade de leite produzido"
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -281,7 +297,11 @@ export default function CreateChecklist() {
         </InputContainer>
         <InputContainer>
           <SelectField
-            bg="white"
+            themeLight={themeLight}
+            bg={themeLight ? theme.colors.textWhite : theme.colors.textGray}
+            placeholderTextColor={
+              themeLight ? theme.colors.textGray : theme.colors.textGray2
+            }
             selectedValue={checklistType}
             minWidth="300"
             accessibilityLabel="Tipo de checklist"
@@ -298,7 +318,12 @@ export default function CreateChecklist() {
           {errorChecklistType && <Error>Esse campo é necessário</Error>}
         </InputContainer>
 
-        <ButonSubmit onPress={handleSubmit(onSubmit)}>Enviar</ButonSubmit>
+        <ButtonSubmit onPress={handleSubmit(onSubmit)}>
+          <TextButton>Enviar</TextButton>
+        </ButtonSubmit>
+        <ButtonHome onPress={() => navigation.navigate('Home')}>
+          <TextButton>Voltar para home</TextButton>
+        </ButtonHome>
       </Scroll>
     </Container>
   );

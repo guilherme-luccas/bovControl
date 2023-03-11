@@ -1,13 +1,15 @@
 import {Box, Text} from 'native-base';
 import styled from 'styled-components';
 import {TouchableOpacity} from 'react-native';
+import {ThemeMode} from '../../../../globalStyles/stylesInterfaces';
 
-export const Container = styled(Box)`
+export const Container = styled(Box)<ThemeMode>`
   width: 100%;
   padding: 10px;
   margin-bottom: 8px;
   border-radius: 8px;
-  background-color: wheat;
+  background-color: ${({theme, themeLight}) =>
+    themeLight ? theme.colors.buttonPrimary : theme.colors.backgroundGray};
   flex-direction: row;
 `;
 
@@ -31,15 +33,19 @@ export const Title = styled(Text)`
   flex-wrap: wrap;
   margin-right: 4px;
   font-weight: bold;
+  color: ${({theme}) => theme.colors.textWhite};
 `;
 export const Subtitle = styled(Text)`
   flex-wrap: wrap;
   margin-right: 4px;
   flex: 1;
+  color: ${({theme}) => theme.colors.textWhite};
 `;
 
 export const Div = styled(Box)`
-  border: 1px solid orange;
+  border-width: 1px;
+  border-style: solid;
+  border-color: ${({theme}) => theme.colors.backgroundWhite};
   height: 100%;
 `;
 
