@@ -17,6 +17,18 @@ export async function getItemsOfflineDB() {
   return checklist;
 }
 
+export async function deleteItemOfflineDB(item: Checklist) {
+  const realm = await getOfflineDB();
+
+  const itemsToDelete = realm
+    .objects('checklist')
+    .filtered('_id = $0', item._id);
+
+  realm.write(() => {
+    realm.delete(itemsToDelete);
+  });
+}
+
 export async function updateItemsOfflineDB(items: Checklist[]) {
   const realm = await getOfflineDB();
 
@@ -41,5 +53,4 @@ export async function updateItemsOfflineDB(items: Checklist[]) {
       itemToUpdate.updated_at = item.updated_at;
     });
   });
-  // return checklist;
 }

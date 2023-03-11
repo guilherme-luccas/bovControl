@@ -1,4 +1,8 @@
 import React, {useEffect, useState} from 'react';
+
+import {useRoute} from '@react-navigation/native';
+import {useNetInfo} from '@react-native-community/netinfo';
+
 import {
   ButonSubmit,
   Container,
@@ -9,17 +13,17 @@ import {
   SelectField,
   Title,
 } from './styles';
-import {Controller, useForm} from 'react-hook-form';
+
 import {CheckIcon} from 'native-base';
 import {Checklist} from '../../infra/interfaces/interfaces';
-import {useRoute} from '@react-navigation/native';
-import {useNetInfo} from '@react-native-community/netinfo';
-import uuid from 'react-native-uuid';
-import {has} from 'lodash';
+
+import {Controller, useForm} from 'react-hook-form';
+
 import {
   createItemRemoteDB,
   updateItemRemoteDB,
 } from '../../infra/remoteDatabase/repository/Repository';
+
 import {
   createItemOfflineDB,
   updateItemsOfflineDB,

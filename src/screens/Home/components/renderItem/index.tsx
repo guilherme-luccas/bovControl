@@ -12,6 +12,9 @@ import {
   Subtitle,
   Title,
 } from './styles';
+import {useNetInfo} from '@react-native-community/netinfo';
+import {deleteItemOfflineDB} from '../../../../infra/offlineDatabase/repository/Repository';
+import {deleteItemRemoteDB} from '../../../../infra/remoteDatabase/repository/Repository';
 
 interface Props {
   item: Checklist;
@@ -20,6 +23,8 @@ interface Props {
 export default function RenderItem(props: Props) {
   const navigation = useNavigation();
   const item = props.item;
+
+  const isOnline = useNetInfo().isConnected;
 
   return (
     <Container>
@@ -46,7 +51,13 @@ export default function RenderItem(props: Props) {
         <Button onPress={() => navigation.navigate('CreateChecklist', item)}>
           <InfoIcon size="xl" color="gray.500" />
         </Button>
-        <Button>
+        <Button
+          onPress={() => {
+            if (isOnline) {
+              deleteItemOfflineDB(item);
+              deleteItemRemoteDB(item);
+            }
+          }}>
           <DeleteIcon size="xl" color="red.500" />
         </Button>
       </ContainerEditDelete>

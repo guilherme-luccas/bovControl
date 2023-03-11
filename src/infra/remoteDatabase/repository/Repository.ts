@@ -29,7 +29,11 @@ export async function createItemRemoteDB(items: any) {
   }
 }
 
-export async function deleteItemRemoteDB() {}
+export async function deleteItemRemoteDB(item: Checklist) {
+  try {
+    await api.delete(`/checkList/4538474`);
+  } catch (error) {}
+}
 
 export async function updateItemRemoteDB(items: Checklist[]) {
   try {
