@@ -20,4 +20,5 @@ export interface Checklist {
   };
   created_at: string;
   updated_at: string;
+  __v?: number;
 }

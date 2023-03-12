@@ -165,7 +165,7 @@ export default function Home() {
         </ContainerWhite>
         <ButtonPrimary
           themeLight={themeLight}
-          onPress={() => navigation.navigate('CreateChecklist' as never)}>
+          onPress={() => navigation.navigate('CreateChecklist')}>
           <TextButton>Novo Checklist</TextButton>
         </ButtonPrimary>
       </Container>

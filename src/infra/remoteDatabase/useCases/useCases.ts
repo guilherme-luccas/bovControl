@@ -20,7 +20,8 @@ export async function syncAllDataBases(list: Checklist[]) {
     const remoteDB = await getChecklistsRemoteDB();
 
     const missingItemsRemoteDB = list.filter(
-      (item: any) => !remoteDB?.find((obj: any) => obj._id === item._id),
+      (item: Checklist) =>
+        !remoteDB?.find((obj: Checklist) => obj._id === item._id),
     );
 
     if (missingItemsRemoteDB.length > 0) {
@@ -28,7 +29,7 @@ export async function syncAllDataBases(list: Checklist[]) {
     }
 
     const missingItemsOfflineDB = remoteDB.filter(
-      (item: any) => !list.find((obj: any) => obj._id === item._id),
+      (item: Checklist) => !list.find((obj: any) => obj._id === item._id),
     );
 
     if (missingItemsOfflineDB.length > 0) {

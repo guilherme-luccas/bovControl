@@ -4,6 +4,12 @@ import CreateChecklist from '../screens/CreateChecklist/CreateChecklist';
 import InfoChecklist from '../screens/InfoChecklist/InfoChecklist';
 import Home from '../screens/Home/Home';
 
+export interface StackRoute {
+  Home: undefined;
+  CreateChecklist: undefined;
+  InfoChecklist: undefined;
+}
+
 const {Screen, Navigator} = createNativeStackNavigator();
 
 export function StackRoutes() {

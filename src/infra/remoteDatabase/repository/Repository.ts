@@ -4,7 +4,7 @@ export async function getChecklistsRemoteDB() {
   try {
     const response = await api.get('/checkList');
 
-    const itemsFormatted = response.data.map((item: any) => {
+    const itemsFormatted = response.data.map((item: Checklist) => {
       delete item.__v;
       return {
         ...item,
@@ -19,7 +19,7 @@ export async function getChecklistsRemoteDB() {
   }
 }
 
-export async function createItemRemoteDB(items: any) {
+export async function createItemRemoteDB(items: Checklist[]) {
   try {
     await api.post('/checkList', {checklists: items});
   } catch (error: any) {

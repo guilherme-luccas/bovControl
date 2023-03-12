@@ -80,14 +80,12 @@ export default function InfoChecklist() {
       <ButtonsContainer>
         <ButtonPrimary
           themeLight={themeLight}
-          onPress={() =>
-            navigation.navigate('CreateChecklist' as never, item as never)
-          }>
+          onPress={() => navigation.navigate('CreateChecklist', item)}>
           <Title>Editar</Title>
         </ButtonPrimary>
         <ButtonPrimary
           themeLight={themeLight}
-          onPress={() => navigation.navigate('CreateChecklist' as never)}>
+          onPress={() => navigation.navigate('CreateChecklist')}>
           <Title>Novo Checklist</Title>
         </ButtonPrimary>
       </ButtonsContainer>

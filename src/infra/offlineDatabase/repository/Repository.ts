@@ -1,9 +1,9 @@
 import {getOfflineDB} from '../instance';
 import {Checklist} from '../../interfaces/interfaces';
 
-export async function createItemOfflineDB(items: any) {
+export async function createItemOfflineDB(items: Checklist[]) {
   const realm = await getOfflineDB();
-  items.forEach((item: any) => {
+  items.forEach((item: Checklist) => {
     realm.write(() => {
       realm.create('checklist', item);
     });

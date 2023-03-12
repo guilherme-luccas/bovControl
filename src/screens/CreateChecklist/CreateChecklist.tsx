@@ -135,7 +135,7 @@ export default function CreateChecklist() {
       reset();
       setHadSupervision('');
       setChecklistType('');
-      navigation.navigate('Home' as never);
+      navigation.navigate('Home');
     } catch (error) {
       console.log(error);
     }
@@ -332,7 +332,7 @@ export default function CreateChecklist() {
         <ButtonSubmit onPress={handleSubmit(onSubmit)}>
           <TextButton>Enviar</TextButton>
         </ButtonSubmit>
-        <ButtonHome onPress={() => navigation.navigate('Home' as never)}>
+        <ButtonHome onPress={() => navigation.navigate('Home')}>
           <TextButton>Voltar para home</TextButton>
         </ButtonHome>
       </Scroll>
