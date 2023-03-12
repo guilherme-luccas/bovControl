@@ -71,3 +71,4 @@ export const SelectField = styled(Select)<ThemeMode>`
   color: black;
   font-size: 18px;
 `;
+export const Toast = styled(Box)``;

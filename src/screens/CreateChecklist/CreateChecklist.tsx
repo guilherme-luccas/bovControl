@@ -14,11 +14,12 @@ import {
   SelectField,
   TextButton,
   Title,
+  Toast,
 } from './styles';
 import {ThemeContext} from '../../context/useThemeMode';
 import theme from '../../globalStyles/theme';
 
-import {CheckIcon} from 'native-base';
+import {CheckIcon, useToast} from 'native-base';
 
 import {Controller, useForm} from 'react-hook-form';
 
@@ -31,13 +32,16 @@ import {
   createItemOfflineDB,
   updateItemsOfflineDB,
 } from '../../infra/offlineDatabase/repository/Repository';
+import {CHECKLIST_TYPES, PLACEHOLDERS} from '../../utils/const';
+import {tr} from 'date-fns/locale';
 
 export default function CreateChecklist() {
   const route = useRoute();
   const isOnline = useNetInfo().isConnected;
   const navigation = useNavigation();
+  const toast = useToast();
 
-  const {themeLight, ChangeTheme} = useContext(ThemeContext);
+  const {themeLight} = useContext(ThemeContext);
 
   const item: any = route.params;
 
@@ -137,7 +141,22 @@ export default function CreateChecklist() {
       setChecklistType('');
       navigation.navigate('Home');
     } catch (error) {
-      console.log(error);
+      console.log('error trying to create item', error);
+      toast.show({
+        placement: 'top',
+        render: () => {
+          return (
+            <Toast
+              bg={theme.colors.dangerSecondary}
+              px="2"
+              py="2"
+              rounded="sm"
+              mb={5}>
+              Algo deu errado ao carregar os items
+            </Toast>
+          );
+        },
+      });
     }
   };
 
@@ -165,7 +184,7 @@ export default function CreateChecklist() {
             render={({field: {onChange, onBlur, value}}) => (
               <InputFiled
                 themeLight={themeLight}
-                placeholder="Fazendeiro"
+                placeholder={PLACEHOLDERS.farmer}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
@@ -184,7 +203,7 @@ export default function CreateChecklist() {
             render={({field: {onChange, onBlur, value}}) => (
               <InputFiled
                 themeLight={themeLight}
-                placeholder="Nome da Fazenda"
+                placeholder={PLACEHOLDERS.farmName}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
@@ -203,7 +222,7 @@ export default function CreateChecklist() {
             render={({field: {onChange, onBlur, value}}) => (
               <InputFiled
                 themeLight={themeLight}
-                placeholder="Local da Fazenda"
+                placeholder={PLACEHOLDERS.farmLocation}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
@@ -222,8 +241,8 @@ export default function CreateChecklist() {
             }
             selectedValue={hadSupervision}
             minWidth="300"
-            accessibilityLabel="Teve supervisão?"
-            placeholder="Teve supervisão?"
+            accessibilityLabel={PLACEHOLDERS.hadSupervision}
+            placeholder={PLACEHOLDERS.hadSupervision}
             _selectedItem={{
               bg: 'gray.400',
               endIcon: <CheckIcon size="5" />,
@@ -244,7 +263,7 @@ export default function CreateChecklist() {
               <InputFiled
                 themeLight={themeLight}
                 editable={hadSupervision == 'true' ? true : false}
-                placeholder="Nome do Supervisor"
+                placeholder={PLACEHOLDERS.supervisiorName}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
@@ -264,7 +283,7 @@ export default function CreateChecklist() {
             render={({field: {onChange, onBlur, value}}) => (
               <InputFiled
                 themeLight={themeLight}
-                placeholder="Número de cabeças de gado"
+                placeholder={PLACEHOLDERS.numberOfCowsHeads}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
@@ -290,7 +309,7 @@ export default function CreateChecklist() {
             render={({field: {onChange, onBlur, value}}) => (
               <InputFiled
                 themeLight={themeLight}
-                placeholder="Quantidade de leite produzido"
+                placeholder={PLACEHOLDERS.amounOfMilkProduced}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
@@ -315,16 +334,25 @@ export default function CreateChecklist() {
             }
             selectedValue={checklistType}
             minWidth="300"
-            accessibilityLabel="Tipo de checklist"
-            placeholder="Tipo de checklist"
+            accessibilityLabel={PLACEHOLDERS.checklistType}
+            placeholder={PLACEHOLDERS.checklistType}
             _selectedItem={{
               bg: 'gray.400',
               endIcon: <CheckIcon size="5" />,
             }}
             onValueChange={itemValue => setChecklistType(itemValue)}>
-            <SelectField.Item label="BPA" value="BPA" />
-            <SelectField.Item label="ANTIBIÓTICO" value="ANTIBIÓTICO" />
-            <SelectField.Item label="BPF" value="BPF" />
+            <SelectField.Item
+              label={CHECKLIST_TYPES.BPA}
+              value={CHECKLIST_TYPES.BPA}
+            />
+            <SelectField.Item
+              label={CHECKLIST_TYPES.ANTIBIOTIC}
+              value={CHECKLIST_TYPES.ANTIBIOTIC}
+            />
+            <SelectField.Item
+              label={CHECKLIST_TYPES.BPF}
+              value={CHECKLIST_TYPES.BPF}
+            />
           </SelectField>
           {errorChecklistType && <Error>Esse campo é necessário</Error>}
         </InputContainer>

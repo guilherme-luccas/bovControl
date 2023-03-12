@@ -15,7 +15,7 @@ import {
 import {ThemeContext} from '../../context/useThemeMode';
 
 import {supervisionType} from '../../utils/const';
-import {format} from 'date-fns';
+import {formatDate} from '../../utils';
 
 export default function InfoChecklist() {
   const navigation = useNavigation();
@@ -29,8 +29,8 @@ export default function InfoChecklist() {
     ? supervisionType.positive
     : supervisionType.positive;
 
-  const createdDateFormatted = format(new Date(item.created_at), 'dd/MM/yyyy');
-  const updatedDateFormatted = format(new Date(item?.updated_at), 'dd/MM/yyyy');
+  const createdDateFormatted = formatDate(item.created_at);
+  const updatedDateFormatted = formatDate(item?.updated_at);
 
   return (
     <Container safeAreaTop>

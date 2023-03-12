@@ -30,8 +30,6 @@ import {CloseIcon, useToast} from 'native-base';
 
 import {Checklist} from '../../infra/interfaces/interfaces';
 
-import {format} from 'date-fns';
-
 import {getItemsOfflineDB} from '../../infra/offlineDatabase/repository/Repository';
 import {syncAllDataBases} from '../../infra/remoteDatabase/useCases/useCases';
 
@@ -39,6 +37,8 @@ import {useNetInfo} from '@react-native-community/netinfo';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 
 import RenderItem from './components/renderItem';
+
+import {today} from '../../utils/const';
 
 export default function Home() {
   const isOnline = useNetInfo().isConnected;
@@ -54,8 +54,6 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   const [isOpenModal, setIsOpenModal] = useState(false);
-
-  const today = format(new Date(), 'dd/MM/yyyy');
 
   async function initOffline() {
     setLoading(true);
@@ -86,6 +84,21 @@ export default function Home() {
         );
         setLoading(false);
       } catch (error) {
+        toast.show({
+          placement: 'top',
+          render: () => {
+            return (
+              <Toast
+                bg={theme.colors.dangerSecondary}
+                px="2"
+                py="2"
+                rounded="sm"
+                mb={5}>
+                Algo deu errado ao carregar os items
+              </Toast>
+            );
+          },
+        });
         setLoading(false);
       }
     }, 1000);
@@ -130,7 +143,7 @@ export default function Home() {
           <ContainerLogo>
             <ContainerTitles>
               <Title>Olá, </Title>
-              <LogoTitle>Fazendeiros</LogoTitle>
+              <LogoTitle>Fazendeiro</LogoTitle>
               <Picture source={logo} />
             </ContainerTitles>
             <DateText>{today}</DateText>

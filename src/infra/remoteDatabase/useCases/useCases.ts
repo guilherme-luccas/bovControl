@@ -73,5 +73,7 @@ export async function syncAllDataBases(list: Checklist[]) {
     };
   } catch (error: any) {
     console.log('syncalldatabase', error.message);
+
+    throw new Error();
   }
 }

@@ -9,6 +9,7 @@ export default {
     greenPrimary: '#0A3932',
     buttonPrimary: '#189777',
     dangerPrimary: '#B35f3e',
+    dangerSecondary: '#ff4e3b',
     backgroundGray: '#101D24',
   },
 };
