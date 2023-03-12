@@ -1,4 +1,7 @@
 import React, {useContext} from 'react';
+
+import {useNavigation, useRoute} from '@react-navigation/native';
+
 import {
   ButtonPrimary,
   ButtonsContainer,
@@ -9,10 +12,10 @@ import {
   FieldOption,
   Title,
 } from './styles';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {ThemeContext} from '../../context/useThemeMode';
+
 import {supervisionType} from '../../utils/const';
 import {format} from 'date-fns';
-import {ThemeContext} from '../../context/useThemeMode';
 
 export default function InfoChecklist() {
   const navigation = useNavigation();

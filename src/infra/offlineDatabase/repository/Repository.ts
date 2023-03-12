@@ -34,7 +34,7 @@ export async function updateItemsOfflineDB(items: Checklist[]) {
 
   items.forEach((item: Checklist) => {
     realm.write(() => {
-      const itemToUpdate: Checklist = realm.objectForPrimaryKey(
+      const itemToUpdate: any = realm.objectForPrimaryKey(
         'checklist',
         item._id,
       );

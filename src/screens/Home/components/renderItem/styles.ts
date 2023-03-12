@@ -1,6 +1,8 @@
-import {Box, Text} from 'native-base';
 import styled from 'styled-components';
+
+import {Box, Text} from 'native-base';
 import {TouchableOpacity} from 'react-native';
+
 import {ThemeMode} from '../../../../globalStyles/stylesInterfaces';
 
 export const Container = styled(Box)<ThemeMode>`

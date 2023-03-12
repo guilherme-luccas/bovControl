@@ -19,8 +19,6 @@ export async function getChecklistsRemoteDB() {
   }
 }
 
-export async function getItemByIdRemoteDB() {}
-
 export async function createItemRemoteDB(items: any) {
   try {
     await api.post('/checkList', {checklists: items});
