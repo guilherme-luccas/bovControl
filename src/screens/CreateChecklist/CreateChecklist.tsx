@@ -142,21 +142,6 @@ export default function CreateChecklist() {
       navigation.navigate('Home');
     } catch (error) {
       console.log('error trying to create item', error);
-      toast.show({
-        placement: 'top',
-        render: () => {
-          return (
-            <Toast
-              bg={theme.colors.dangerSecondary}
-              px="2"
-              py="2"
-              rounded="sm"
-              mb={5}>
-              Algo deu errado ao carregar os items
-            </Toast>
-          );
-        },
-      });
     }
   };
 
