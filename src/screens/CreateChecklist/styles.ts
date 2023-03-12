@@ -6,7 +6,7 @@ import {ThemeMode} from '../../globalStyles/stylesInterfaces';
 export const Container = styled(Box)`
   align-items: center;
   flex: 1;
-  padding: 0px 20px;
+  padding: 20px 20px;
   background-color: ${({theme}) => theme.colors.greenPrimary};
 `;
 

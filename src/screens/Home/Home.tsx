@@ -137,7 +137,7 @@ export default function Home() {
           </ContainerLogo>
           <ContainerChecklistInfos>
             <DateText>Seus Checklists:</DateText>
-            <DateText>Total: {list.length}</DateText>
+            <DateText>Total: {list?.length > 0 ? list.length : 0}</DateText>
           </ContainerChecklistInfos>
         </ContainerGreen>
 
@@ -149,7 +149,7 @@ export default function Home() {
                 themeLight ? theme.colors.greenPrimary : theme.colors.textWhite
               }
             />
-          ) : list.length > 0 ? (
+          ) : list?.length > 0 ? (
             <>
               <FlatList
                 data={list}

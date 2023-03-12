@@ -71,6 +71,6 @@ export async function syncAllDataBases(list: Checklist[]) {
         itemsToUpdate !== itemsToCompareFromRemoteDB ? itemsToUpdate : [],
     };
   } catch (error: any) {
-    console.log(error.message);
+    console.log('syncalldatabase', error.message);
   }
 }

@@ -12,7 +12,7 @@ function App(): JSX.Element {
         <ThemeProvider theme={theme}>
           <StatusBar
             animated={true}
-            barStyle={'light-content'}
+            barStyle={'dark-content'}
             showHideTransition={'fade'}
           />
           <Routes />
