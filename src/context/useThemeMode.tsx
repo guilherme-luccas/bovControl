@@ -1,9 +1,22 @@
 import {createContext, ReactNode, useState} from 'react';
 
-export const ThemeContext = createContext({});
+interface Children {
+  children: ReactNode;
+}
+interface ContextData {
+  themeLight: boolean;
+  ChangeTheme: () => void;
+}
 
-export function ThemeProviderMode({children}) {
-  const [themeLight, setThemeLight] = useState(true);
+const initalValue = {
+  themeLight: false,
+  ChangeTheme: () => {},
+};
+
+export const ThemeContext = createContext<ContextData>(initalValue);
+
+export function ThemeProviderMode({children}: Children) {
+  const [themeLight, setThemeLight] = useState(initalValue.themeLight);
   function ChangeTheme() {
     setThemeLight(!themeLight);
   }

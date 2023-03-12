@@ -15,9 +15,10 @@ import {
   TextButton,
   Title,
 } from './styles';
+import {ThemeContext} from '../../context/useThemeMode';
+import theme from '../../globalStyles/theme';
 
 import {CheckIcon} from 'native-base';
-import {Checklist} from '../../infra/interfaces/interfaces';
 
 import {Controller, useForm} from 'react-hook-form';
 
@@ -30,17 +31,15 @@ import {
   createItemOfflineDB,
   updateItemsOfflineDB,
 } from '../../infra/offlineDatabase/repository/Repository';
-import {ThemeContext} from '../../context/useThemeMode';
-import theme from '../../globalStyles/theme';
 
 export default function CreateChecklist() {
   const route = useRoute();
   const isOnline = useNetInfo().isConnected;
-  const navigation: any = useNavigation();
+  const navigation = useNavigation();
 
   const {themeLight, ChangeTheme} = useContext(ThemeContext);
 
-  const item: Checklist = route.params;
+  const item: any = route.params;
 
   const isEditChecklist = !!item;
 
@@ -76,7 +75,7 @@ export default function CreateChecklist() {
 
   const booleandSupervision = hadSupervision == 'true' ? true : false;
 
-  const onSubmit = data => {
+  const onSubmit = (data: any) => {
     if (!checklistType) {
       setErrorChecklistType(true);
       return;
@@ -136,7 +135,7 @@ export default function CreateChecklist() {
       reset();
       setHadSupervision('');
       setChecklistType('');
-      navigation.navigate('Home');
+      navigation.navigate('Home' as never);
     } catch (error) {
       console.log(error);
     }
@@ -333,7 +332,7 @@ export default function CreateChecklist() {
         <ButtonSubmit onPress={handleSubmit(onSubmit)}>
           <TextButton>Enviar</TextButton>
         </ButtonSubmit>
-        <ButtonHome onPress={() => navigation.navigate('Home')}>
+        <ButtonHome onPress={() => navigation.navigate('Home' as never)}>
           <TextButton>Voltar para home</TextButton>
         </ButtonHome>
       </Scroll>

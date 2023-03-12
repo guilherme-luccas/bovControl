@@ -10,18 +10,17 @@ import {
   Title,
 } from './styles';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {Checklist} from '../../infra/interfaces/interfaces';
 import {supervisionType} from '../../utils/const';
 import {format} from 'date-fns';
 import {ThemeContext} from '../../context/useThemeMode';
 
 export default function InfoChecklist() {
-  const navigation: any = useNavigation();
+  const navigation = useNavigation();
   const route = useRoute();
 
   const {themeLight} = useContext(ThemeContext);
 
-  const item: Checklist = route.params;
+  const item: any = route.params;
 
   const hadSupervision = item.had_supervision
     ? supervisionType.positive
@@ -78,12 +77,14 @@ export default function InfoChecklist() {
       <ButtonsContainer>
         <ButtonPrimary
           themeLight={themeLight}
-          onPress={() => navigation.navigate('CreateChecklist', item)}>
+          onPress={() =>
+            navigation.navigate('CreateChecklist' as never, item as never)
+          }>
           <Title>Editar</Title>
         </ButtonPrimary>
         <ButtonPrimary
           themeLight={themeLight}
-          onPress={() => navigation.navigate('CreateChecklist')}>
+          onPress={() => navigation.navigate('CreateChecklist' as never)}>
           <Title>Novo Checklist</Title>
         </ButtonPrimary>
       </ButtonsContainer>

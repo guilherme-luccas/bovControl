@@ -154,11 +154,7 @@ export default function Home() {
               <FlatList
                 data={list}
                 renderItem={({item}) => (
-                  <RenderItem
-                    item={item}
-                    initOnline={initOnline}
-                    initOffline={initOffline}
-                  />
+                  <RenderItem item={item} setList={setList} list={list} />
                 )}
                 keyExtractor={item => String(item._id)}
               />
@@ -169,7 +165,7 @@ export default function Home() {
         </ContainerWhite>
         <ButtonPrimary
           themeLight={themeLight}
-          onPress={() => navigation.navigate('CreateChecklist')}>
+          onPress={() => navigation.navigate('CreateChecklist' as never)}>
           <TextButton>Novo Checklist</TextButton>
         </ButtonPrimary>
       </Container>
@@ -192,13 +188,8 @@ export default function Home() {
 
             <FlatList
               data={missingItemsToShow}
-              renderItem={({item}) => (
-                <RenderItem
-                  item={item}
-                  initOnline={initOnline}
-                  initOffline={initOffline}
-                  disableIcons={true}
-                />
+              renderItem={({item}: {item: Checklist}) => (
+                <RenderItem item={item} disableIcons={true} />
               )}
               keyExtractor={item => String(item._id)}
             />

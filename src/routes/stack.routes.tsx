@@ -2,6 +2,13 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import CreateChecklist from '../screens/CreateChecklist/CreateChecklist';
 import InfoChecklist from '../screens/InfoChecklist/InfoChecklist';
 import Home from '../screens/Home/Home';
+import {Checklist} from '../infra/interfaces/interfaces';
+
+type RootStackParamList = {
+  Home: undefined;
+  CreateChecklist: {item: Checklist | undefined};
+  InfoChecklist: {item: Checklist};
+};
 
 const {Screen, Navigator} = createNativeStackNavigator();
 

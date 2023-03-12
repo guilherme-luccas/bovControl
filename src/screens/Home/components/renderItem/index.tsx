@@ -24,22 +24,28 @@ import {useNetInfo} from '@react-native-community/netinfo';
 
 import {deleteItemOfflineDB} from '../../../../infra/offlineDatabase/repository/Repository';
 import {deleteItemRemoteDB} from '../../../../infra/remoteDatabase/repository/Repository';
+
 import {formatDate} from '../../../../utils';
 
-interface Props {
-  item: Checklist;
-  initOnline: () => void;
-  initOffline: () => void;
-  disableIcons: boolean;
-}
+import {PropsRenderItem} from '../../interfaces';
 
-export default function RenderItem(props: Props) {
+export default function RenderItem(props: PropsRenderItem) {
   const navigation: any = useNavigation();
-  const {item, initOnline, initOffline, disableIcons} = props;
+  const {item, disableIcons, setList, list} = props;
 
-  const {themeLight, ChangeTheme} = useContext(ThemeContext);
+  const {themeLight} = useContext(ThemeContext);
 
   const isOnline = useNetInfo().isConnected;
+
+  function handleDeleteItem(checklistItem: Checklist) {
+    const listWithDeletedItem = list?.filter(
+      (checklist: Checklist) => checklist._id !== checklistItem._id,
+    );
+
+    if (setList) {
+      setList(listWithDeletedItem as Checklist[]);
+    }
+  }
 
   return (
     <Container themeLight={themeLight} shadow={1}>
@@ -82,10 +88,10 @@ export default function RenderItem(props: Props) {
                       if (isOnline) {
                         deleteItemOfflineDB(item);
                         deleteItemRemoteDB(item);
-                        initOnline();
+                        handleDeleteItem(item);
                       }
                       deleteItemOfflineDB(item);
-                      initOffline();
+                      handleDeleteItem(item);
                     },
                   },
                 ]);
