@@ -5,7 +5,7 @@ import styled from 'styled-components';
 export const Container = styled(Box)`
   align-items: center;
   flex: 1;
-  padding: 10px 20px;
+  padding: 40px 20px;
   background-color: ${({theme}) => theme.colors.greenPrimary};
 `;
 export const Card = styled(Box)<ThemeMode>`
