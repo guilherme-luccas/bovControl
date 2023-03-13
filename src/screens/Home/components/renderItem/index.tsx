@@ -1,5 +1,5 @@
 import {Alert} from 'react-native';
-import {useContext} from 'react';
+import {useContext, useState} from 'react';
 
 import {Checklist} from '../../../../infra/models/Checklist';
 
@@ -12,6 +12,7 @@ import {
   ContainerField,
   ContainerInfo,
   Div,
+  Loading,
   Subtitle,
   Title,
 } from './styles';
@@ -32,6 +33,8 @@ import {PropsRenderItem} from '../../interfaces';
 export default function RenderItem(props: PropsRenderItem) {
   const navigation: any = useNavigation();
   const {item, disableIcons, setList, list} = props;
+
+  const [loading, setLoading] = useState(false);
 
   const {themeLight} = useContext(ThemeContext);
 
@@ -84,26 +87,32 @@ export default function RenderItem(props: PropsRenderItem) {
                   },
                   {
                     text: 'Sim',
-                    onPress: () => {
+                    onPress: async () => {
+                      setLoading(true);
                       if (isOnline) {
-                        deleteItemOfflineDB(item);
-                        deleteItemRemoteDB(item);
+                        await deleteItemOfflineDB(item);
+                        await deleteItemRemoteDB(item);
                         handleDeleteItem(item);
                       }
-                      deleteItemOfflineDB(item);
+                      await deleteItemOfflineDB(item);
                       handleDeleteItem(item);
+                      setLoading(false);
                     },
                   },
                 ]);
               }}>
-              <DeleteIcon
-                size="xl"
-                color={
-                  themeLight
-                    ? theme.colors.textBlack
-                    : theme.colors.dangerPrimary
-                }
-              />
+              {loading ? (
+                <Loading color={theme.colors.dangerSecondary} size="sm" />
+              ) : (
+                <DeleteIcon
+                  size="xl"
+                  color={
+                    themeLight
+                      ? theme.colors.textBlack
+                      : theme.colors.dangerPrimary
+                  }
+                />
+              )}
             </Button>
           </ContainerEditDelete>
         </>

@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 
-import {Box, Text} from 'native-base';
+import {Box, Spinner, Text} from 'native-base';
 import {TouchableOpacity} from 'react-native';
 
 import {ThemeMode} from '../../../../globalStyles/stylesInterfaces';
 
 export const Container = styled(Box)<ThemeMode>`
+  justify-content: center;
   width: 100%;
   padding: 10px;
   margin-bottom: 8px;
@@ -52,3 +53,5 @@ export const Div = styled(Box)`
 `;
 
 export const Button = styled(TouchableOpacity)``;
+
+export const Loading = styled(Spinner)``;

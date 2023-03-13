@@ -2,7 +2,7 @@ import {Checklist} from '../infra/models/Checklist';
 import {format, isBefore} from 'date-fns';
 import _ from 'lodash';
 
-export function returnNewestItemByDate(item: Checklist, item2: Checklist) {
+export function returnNewestItemByDate(item: any, item2: any) {
   if (isBefore(Number(item.updated_at), Number(item2.updated_at))) {
     return item;
   }
