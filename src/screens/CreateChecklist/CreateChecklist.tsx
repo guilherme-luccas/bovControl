@@ -70,7 +70,6 @@ export default function CreateChecklist() {
   const [checklistType, setChecklistType] = useState(
     isEditChecklist ? item.type : '',
   );
-
   const [hadSupervision, setHadSupervision] = useState(
     isEditChecklist ? String(item.had_supervision) : '',
   );
@@ -85,7 +84,7 @@ export default function CreateChecklist() {
       return;
     }
     if (!hadSupervision) {
-      setErrorChecklistType(true);
+      setErrorHadSuperVision(true);
       return;
     }
     try {
