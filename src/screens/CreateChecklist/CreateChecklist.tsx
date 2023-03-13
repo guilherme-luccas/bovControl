@@ -15,11 +15,12 @@ import {
   SelectField,
   TextButton,
   Title,
+  Toast,
 } from './styles';
 import {ThemeContext} from '../../context/useThemeMode';
 import theme from '../../globalStyles/theme';
 
-import {CheckIcon} from 'native-base';
+import {CheckIcon, useToast} from 'native-base';
 
 import {Controller, useForm} from 'react-hook-form';
 
@@ -39,6 +40,7 @@ export default function CreateChecklist() {
   const route = useRoute();
   const isOnline = useNetInfo().isConnected;
   const navigation = useNavigation();
+  const toast = useToast();
 
   const [loading, setLoading] = useState(false);
 
@@ -119,35 +121,64 @@ export default function CreateChecklist() {
         },
       },
     ];
+
     try {
-      if (isOnline) {
-        if (!isEditChecklist) {
+      if (isOnline && !isEditChecklist) {
+        try {
           await createItemRemoteDB(body);
           await createItemOfflineDB(body);
+        } catch (error) {
+          throw error;
         }
-        if (isEditChecklist) {
+      }
+
+      if (isOnline && isEditChecklist) {
+        try {
           await updateItemRemoteDB(body);
           await updateItemsOfflineDB(body);
+        } catch (error) {
+          throw error;
         }
       }
-      if (!isOnline) {
-        if (!isEditChecklist) {
+
+      if (!isOnline && !isEditChecklist) {
+        try {
           await createItemOfflineDB(body);
-        }
-        if (isEditChecklist) {
-          await updateItemsOfflineDB(body);
+        } catch (error) {
+          throw error;
         }
       }
+      if (!isOnline && isEditChecklist) {
+        try {
+          await updateItemsOfflineDB(body);
+        } catch (error) {
+          throw error;
+        }
+      }
+    } catch (error) {
+      console.log('error trying to create item', error);
+      toast.show({
+        placement: 'top',
+        render: () => {
+          return (
+            <Toast
+              bg={theme.colors.dangerSecondary}
+              px="2"
+              py="2"
+              rounded="sm"
+              mb={5}>
+              Algo deu errado ao criar os items
+            </Toast>
+          );
+        },
+      });
+    } finally {
       reset();
       setHadSupervision('');
       setChecklistType('');
       setLoading(false);
 
       navigation.navigate('Home');
-    } catch (error) {
-      setLoading(false);
-
-      console.log('error trying to create item', error);
     }
   };
 
