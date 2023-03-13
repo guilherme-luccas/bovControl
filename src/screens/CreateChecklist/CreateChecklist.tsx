@@ -10,6 +10,7 @@ import {
   Error,
   InputContainer,
   InputFiled,
+  Loading,
   Scroll,
   SelectField,
   TextButton,
@@ -39,7 +40,8 @@ export default function CreateChecklist() {
   const route = useRoute();
   const isOnline = useNetInfo().isConnected;
   const navigation = useNavigation();
-  const toast = useToast();
+
+  const [loading, setLoading] = useState(false);
 
   const {themeLight} = useContext(ThemeContext);
 
@@ -78,7 +80,7 @@ export default function CreateChecklist() {
 
   const booleandSupervision = hadSupervision == 'true' ? true : false;
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     if (!checklistType) {
       setErrorChecklistType(true);
       return;
@@ -87,59 +89,65 @@ export default function CreateChecklist() {
       setErrorHadSuperVision(true);
       return;
     }
-    try {
-      const body = [
-        {
-          _id: isEditChecklist
-            ? item._id
-            : String(Math.floor(Math.random() * 100103020)),
-          type: checklistType.toUpperCase(),
-          amount_of_milk_produced: Number(data.AmountOfMilkProduced),
-          number_of_cows_head: Number(data.NumbersOfCowsHead),
-          farmer: {
-            name: String(data.FarmName).toUpperCase(),
-            city: String(data.FarmCity).toUpperCase(),
-          },
-          from: {
-            name: String(data.FarmerName).toUpperCase(),
-          },
-          to: {
-            name: String(data.SupervisorName).toUpperCase(),
-          },
-          had_supervision: booleandSupervision,
-          created_at: isEditChecklist
-            ? String(item.created_at)
-            : String(new Date()),
-          updated_at: String(new Date()),
-          location: {
-            latitude: 25.5,
-            longitude: 32.5,
-          },
+
+    setLoading(true);
+    const body = [
+      {
+        _id: isEditChecklist
+          ? item._id
+          : String(Math.floor(Math.random() * 100103020)),
+        type: checklistType.toUpperCase(),
+        amount_of_milk_produced: Number(data.AmountOfMilkProduced),
+        number_of_cows_head: Number(data.NumbersOfCowsHead),
+        farmer: {
+          name: String(data.FarmName).toUpperCase(),
+          city: String(data.FarmCity).toUpperCase(),
         },
-      ];
+        from: {
+          name: String(data.FarmerName).toUpperCase(),
+        },
+        to: {
+          name: String(data.SupervisorName).toUpperCase(),
+        },
+        had_supervision: booleandSupervision,
+        created_at: isEditChecklist
+          ? String(item.created_at)
+          : String(new Date()),
+        updated_at: String(new Date()),
+        location: {
+          latitude: 25.5,
+          longitude: 32.5,
+        },
+      },
+    ];
+    try {
       if (isOnline) {
         if (!isEditChecklist) {
-          createItemRemoteDB(body);
-          createItemOfflineDB(body);
+          await createItemRemoteDB(body);
+          await createItemOfflineDB(body);
         }
         if (isEditChecklist) {
-          updateItemRemoteDB(body);
-          updateItemsOfflineDB(body);
+          await updateItemRemoteDB(body);
+          await updateItemsOfflineDB(body);
         }
       }
       if (!isOnline) {
         if (!isEditChecklist) {
-          createItemOfflineDB(body);
+          await createItemOfflineDB(body);
         }
         if (isEditChecklist) {
-          updateItemsOfflineDB(body);
+          await updateItemsOfflineDB(body);
         }
       }
       reset();
       setHadSupervision('');
       setChecklistType('');
+      setLoading(false);
+
       navigation.navigate('Home');
     } catch (error) {
+      setLoading(false);
+
       console.log('error trying to create item', error);
     }
   };
@@ -342,7 +350,11 @@ export default function CreateChecklist() {
         </InputContainer>
 
         <ButtonSubmit onPress={handleSubmit(onSubmit)}>
-          <TextButton>Enviar</TextButton>
+          {loading ? (
+            <Loading color={theme.colors.textWhite} />
+          ) : (
+            <TextButton>Enviar</TextButton>
+          )}
         </ButtonSubmit>
         <ButtonHome onPress={() => navigation.navigate('Home')}>
           <TextButton>Voltar para home</TextButton>
