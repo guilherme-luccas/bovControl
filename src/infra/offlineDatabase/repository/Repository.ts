@@ -1,5 +1,5 @@
 import {getOfflineDB} from '../instance';
-import {Checklist} from '../../interfaces/interfaces';
+import {Checklist} from '../../models/Checklist';
 
 export async function createItemOfflineDB(items: Checklist[]) {
   const realm = await getOfflineDB();

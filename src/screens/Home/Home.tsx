@@ -28,7 +28,7 @@ import {ThemeContext} from '../../context/useThemeMode';
 import theme from '../../globalStyles/theme';
 import {CloseIcon, useToast} from 'native-base';
 
-import {Checklist} from '../../infra/interfaces/interfaces';
+import {Checklist} from '../../infra/models/Checklist';
 
 import {getItemsOfflineDB} from '../../infra/offlineDatabase/repository/Repository';
 import {syncAllDataBases} from '../../infra/remoteDatabase/useCases/useCases';

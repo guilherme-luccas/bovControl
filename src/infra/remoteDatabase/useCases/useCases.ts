@@ -1,4 +1,4 @@
-import {Checklist} from './../../interfaces/interfaces';
+import {Checklist} from '../../models/Checklist';
 import {
   createItemRemoteDB,
   getChecklistsRemoteDB,

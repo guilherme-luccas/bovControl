@@ -1,4 +1,4 @@
-import {Checklist} from './../../interfaces/interfaces';
+import {Checklist} from '../../models/Checklist';
 import {api} from './../../../services/api';
 export async function getChecklistsRemoteDB() {
   try {

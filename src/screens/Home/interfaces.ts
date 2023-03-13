@@ -1,4 +1,4 @@
-import {Checklist} from '../../infra/interfaces/interfaces';
+import {Checklist} from '../../infra/models/Checklist';
 
 export interface PropsRenderItem {
   item: Checklist;

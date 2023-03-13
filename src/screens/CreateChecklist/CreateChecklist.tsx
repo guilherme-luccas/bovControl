@@ -33,7 +33,7 @@ import {
   updateItemsOfflineDB,
 } from '../../infra/offlineDatabase/repository/Repository';
 import {CHECKLIST_TYPES, PLACEHOLDERS} from '../../utils/const';
-import {Checklist} from '../../infra/interfaces/interfaces';
+import {Checklist} from '../../infra/models/Checklist';
 
 export default function CreateChecklist() {
   const route = useRoute();

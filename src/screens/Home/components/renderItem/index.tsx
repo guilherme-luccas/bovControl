@@ -1,7 +1,7 @@
 import {Alert} from 'react-native';
 import {useContext} from 'react';
 
-import {Checklist} from '../../../../infra/interfaces/interfaces';
+import {Checklist} from '../../../../infra/models/Checklist';
 
 import {useNavigation} from '@react-navigation/native';
 
