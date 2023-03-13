@@ -15,12 +15,11 @@ import {
   SelectField,
   TextButton,
   Title,
-  Toast,
 } from './styles';
 import {ThemeContext} from '../../context/useThemeMode';
 import theme from '../../globalStyles/theme';
 
-import {CheckIcon, useToast} from 'native-base';
+import {CheckIcon} from 'native-base';
 
 import {Controller, useForm} from 'react-hook-form';
 
@@ -34,7 +33,7 @@ import {
   updateItemsOfflineDB,
 } from '../../infra/offlineDatabase/repository/Repository';
 import {CHECKLIST_TYPES, PLACEHOLDERS} from '../../utils/const';
-import {tr} from 'date-fns/locale';
+import {Checklist} from '../../infra/interfaces/interfaces';
 
 export default function CreateChecklist() {
   const route = useRoute();
@@ -45,7 +44,7 @@ export default function CreateChecklist() {
 
   const {themeLight} = useContext(ThemeContext);
 
-  const item: any = route.params;
+  const item: Checklist | any = route.params;
 
   const isEditChecklist = !!item;
 
