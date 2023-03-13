@@ -122,7 +122,7 @@ export default function Home() {
               py="2"
               rounded="sm"
               mb={5}>
-              Você está Online
+              Você está Offline
             </Toast>
           );
         },
